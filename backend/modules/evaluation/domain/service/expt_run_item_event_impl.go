@@ -174,7 +174,7 @@ func (e *ExptItemEventEvalServiceImpl) HandleEventErr(next RecordEvalEndPoint) R
 		if retryConf.IsInDebt {
 			completeCID := fmt.Sprintf("terminate:indebt:%d", event.ExptRunID)
 
-			if err := e.manager.CompleteRun(ctx, event.ExptID, event.ExptRunID, event.ExptRunMode, event.SpaceID, event.Session, entity.WithCID(completeCID)); err != nil {
+			if err := e.manager.CompleteRun(ctx, event.ExptID, event.ExptRunID, event.SpaceID, event.Session, entity.WithCID(completeCID)); err != nil {
 				return errorx.Wrapf(err, "terminate expt run fail, expt_id: %v", event.ExptID)
 			}
 

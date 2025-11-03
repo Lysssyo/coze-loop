@@ -520,14 +520,19 @@ func (e *experimentApplication) KillExperiment(ctx context.Context, req *expt.Ki
 		return nil, err
 	}
 
-	err = e.auth.AuthorizationWithoutSPI(ctx, &rpc.AuthorizationWithoutSPIParam{
-		ObjectID:        strconv.FormatInt(req.GetExptID(), 10),
-		SpaceID:         req.GetWorkspaceID(),
-		ActionObjects:   []*rpc.ActionObject{{Action: gptr.Of(consts.Run), EntityType: gptr.Of(rpc.AuthEntityType_EvaluationExperiment)}},
-		OwnerID:         gptr.Of(got.CreatedBy),
-		ResourceSpaceID: req.GetWorkspaceID(),
-	})
-	if err != nil {
+	if !e.configer.GetMaintainerUserIDs(ctx)[session.UserID] {
+		if err := e.auth.AuthorizationWithoutSPI(ctx, &rpc.AuthorizationWithoutSPIParam{
+			ObjectID:        strconv.FormatInt(req.GetExptID(), 10),
+			SpaceID:         req.GetWorkspaceID(),
+			ActionObjects:   []*rpc.ActionObject{{Action: gptr.Of(consts.Run), EntityType: gptr.Of(rpc.AuthEntityType_EvaluationExperiment)}},
+			OwnerID:         gptr.Of(got.CreatedBy),
+			ResourceSpaceID: req.GetWorkspaceID(),
+		}); err != nil {
+			return nil, err
+		}
+	}
+
+	if err := e.manager.CompleteRun(ctx, req.GetExptID(), got.LatestRunID, req.GetWorkspaceID(), session, entity.WithStatus(entity.ExptStatus_Terminated)); err != nil {
 		return nil, err
 	}
 

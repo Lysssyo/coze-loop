@@ -361,7 +361,7 @@ func TestExptMangerImpl_CompleteRun(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tt.setup()
-			err := mgr.CompleteRun(ctx, tt.exptID, tt.runID, tt.mode, tt.spaceID, session, tt.opts...)
+			err := mgr.CompleteRun(ctx, tt.exptID, tt.runID, tt.spaceID, session, tt.opts...)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("CompleteRun() error = %v, wantErr %v", err, tt.wantErr)
 			}

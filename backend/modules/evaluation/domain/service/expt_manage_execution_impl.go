@@ -320,7 +320,7 @@ func (e *ExptMangerImpl) RetryUnSuccess(ctx context.Context, exptID, runID, spac
 	return nil
 }
 
-func (e *ExptMangerImpl) CompleteRun(ctx context.Context, exptID, exptRunID int64, mode entity.ExptRunMode, spaceID int64, session *entity.Session, opts ...entity.CompleteExptOptionFn) error {
+func (e *ExptMangerImpl) CompleteRun(ctx context.Context, exptID, exptRunID int64, spaceID int64, session *entity.Session, opts ...entity.CompleteExptOptionFn) error {
 	const idemKeyPrefix = "CompleteRun:"
 
 	opt := &entity.CompleteExptOption{}
@@ -819,7 +819,7 @@ func (e *ExptMangerImpl) LogRun(ctx context.Context, exptID, exptRunID int64, mo
 
 	defer e.mtr.EmitExptExecRun(spaceID, int64(mode))
 
-	return e.runLogRepo.Create(ctx, &entity.ExptRunLog{
+	if err := e.runLogRepo.Create(ctx, &entity.ExptRunLog{
 		ID:        exptRunID,
 		SpaceID:   spaceID,
 		CreatedBy: session.UserID,
@@ -827,7 +827,15 @@ func (e *ExptMangerImpl) LogRun(ctx context.Context, exptID, exptRunID int64, mo
 		ExptRunID: exptRunID,
 		Mode:      int32(mode),
 		Status:    int64(entity.ExptStatus_Pending),
-	})
+	}); err != nil {
+		return err
+	}
+
+	if err := e.exptRepo.UpdateFields(ctx, exptID, map[string]any{"latest_run_id": exptRunID}); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (e *ExptMangerImpl) GetRunLog(ctx context.Context, exptID, exptRunID, spaceID int64, session *entity.Session) (*entity.ExptRunLog, error) {
