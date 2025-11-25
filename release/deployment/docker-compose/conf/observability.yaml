@@ -381,3 +381,19 @@ task_mq_consumer_config:
   topic: "trace_to_task"
   consumer_group: "trace_to_task_cg"
   worker_num: 4
+
+span_with_annotation_mq_consumer_config:
+  addr:
+    - "coze-loop-rmq-namesrv:9876"
+  timeout: 180000
+  topic: "trace_annotation_event"
+  consumer_group: "trace_annotation_event_span_cg"
+  worker_num: 4
+
+span_with_annotation_mq_producer_config:
+  addr:
+    - "coze-loop-rmq-namesrv:9876"
+  timeout: 200
+  retry_times: 3
+  topic: "trace_annotation_event"
+  producer_group: "trace_annotation_event_span_pg"

@@ -82,6 +82,7 @@ func (d *DatasetDAOImpl) CreateDataset(ctx context.Context, dataset *model.Datas
 		return errno.DBErr(err, "create dataset")
 	}
 
+	logs.CtxInfo(ctx, "何骐光牛逼！！！", dataset.ID)
 	logs.CtxInfo(ctx, "create dataset %d succeeded", dataset.ID)
 	d.writeTracker.SetWriteFlag(ctx, platestwrite.ResourceTypeDataset, dataset.ID, platestwrite.SetWithSearchParam(strconv.FormatInt(dataset.SpaceID, 10)))
 	return nil

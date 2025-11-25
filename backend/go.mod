@@ -102,6 +102,7 @@ require (
 require (
 	github.com/evanphx/json-patch v4.12.0+incompatible // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.1 // indirect
+	golang.org/x/net v0.42.0 // indirect
 )
 
 require github.com/brianvoe/gofakeit/v6 v6.28.0
@@ -248,8 +249,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/arch v0.15.0 // indirect
-	golang.org/x/mod v0.25.0 // indirect
-	golang.org/x/net v0.42.0 // indirect
+	golang.org/x/mod v0.25.0 // indirect; indirect	golang.org/x/net v0.42.0 // indirect
 	golang.org/x/oauth2 v0.30.0 // indirect
 	golang.org/x/sys v0.34.0 // indirect
 	golang.org/x/time v0.8.0 // indirect
@@ -268,4 +268,4 @@ require (
 	stathat.com/c/consistent v1.0.0 // indirect
 )
 
-replace github.com/mitchellh/osext => github.com/kardianos/osext v0.0.0-20190222173326-2bc1f35cddc0
+replace github.com/mitchellh/osext => github.com/kardianos/osext v0.0.0-0

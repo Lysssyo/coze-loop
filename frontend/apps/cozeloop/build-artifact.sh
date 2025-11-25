@@ -6,7 +6,7 @@ PKG_DIR=$(dirname "$0")
 PKG_ABS_DIR=$(realpath "$PKG_DIR")
 OUTPUT_DIR=$1
 
-# switch cwd to the project folder
+# switch cwd to the project folde
 cd $PKG_DIR
 
 # clear dist

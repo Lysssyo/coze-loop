@@ -23,6 +23,10 @@ RUN mkdir -p ./bin && \
 # Minimal Node.js image (with Node.js + npm), additionally installs Rush to build frontend artifacts
 FROM node:20.13.1-alpine AS frontend_builder
 
+# Use a faster npm registry mirror to reduce timeouts during image builds
+ENV npm_config_registry=https://registry.npmmirror.com \
+    PNPM_REGISTRY=https://registry.npmmirror.com
+
 # 1. Install basic tools (curl, bash, etc.) for alpine
 RUN apk add --no-cache bash
 
