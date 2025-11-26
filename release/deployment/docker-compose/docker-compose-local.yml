@@ -1,0 +1,26 @@
+services:
+  mysql:
+    ports:
+      - "3306:3306"
+  redis:
+    ports:
+      - "6379:6379"
+  clickhouse:
+    ports:
+      - "9000:9000"
+  minio:
+    ports:
+      - "9001:9000"
+  rocketmq-namesrv:
+    ports:
+      - "9876:9876"
+  rocketmq-broker:
+    ports:
+      - "10911:10911"
+      - "10909:10909"
+  coze-loop-python-faas:
+    ports:
+      - "8000:8000"
+  coze-loop-js-faas:
+    ports:
+      - "8001:8000"

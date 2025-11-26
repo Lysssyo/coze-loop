@@ -7,7 +7,7 @@ export type RsbuildConfig = ReturnType<typeof createRsbuildConfig>;
 const port = 8090;
 
 export default createRsbuildConfig({
-  server: { port },
+  server: { port, proxy: { '/api': 'http://localhost:8888' } },
   dev: {
     assetPrefix: `http://localhost:${port}`,
     client: {
